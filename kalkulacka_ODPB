@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulace projektu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .form-check input {
+            margin-right: 10px;
+        }
+        .result {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #14d67e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #12c06c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Přibližná kalkulace vašeho projektu</h2>
+        <form id="kalkulaceForm">
+            <!-- Formulářová pole -->
+            <div class="form-group">
+                <label for="metry">Zadejte opláštění domu (m²)</label>
+                <input type="number" id="metry" placeholder="Zadejte m²" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="strecha">Zadejte plochu střechy nebo půdy (m²)</label>
+                <input type="number" id="strecha" placeholder="Zadejte m²" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="podlaha">Zateplení podlahy (m²)</label>
+                <input type="number" id="podlaha" placeholder="Zadejte m²" min="1" required>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" id="cerpadlo" value="100000">
+                <label for="cerpadlo">Tepelné čerpadlo (100 000 Kč)</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" id="kotel" value="80000">
+                <label for="kotel">Kotel na biomasu (80 000 Kč)</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" id="fotovoltaika" value="200000">
+                <label for="fotovoltaika">Fotovoltaický systém (200 000 Kč)</label>
+            </div>
+            <!-- Výsledek -->
+            <div class="result" id="vysledek">Celková výše podpory: 0 Kč</div>
+            <button type="button" id="spocitat">Spočítat</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById("spocitat").addEventListener("click", () => {
+            const metry = parseFloat(document.getElementById("metry").value) || 0;
+            const strecha = parseFloat(document.getElementById("strecha").value) || 0;
+            const podlaha = parseFloat(document.getElementById("podlaha").value) || 0;
+            const cerpadlo = document.getElementById("cerpadlo").checked ? parseFloat(document.getElementById("cerpadlo").value) : 0;
+            const kotel = document.getElementById("kotel").checked ? parseFloat(document.getElementById("kotel").value) : 0;
+            const fotovoltaika = document.getElementById("fotovoltaika").checked ? parseFloat(document.getElementById("fotovoltaika").value) : 0;
+
+            // Výpočet celkové podpory
+            const podpora = (metry * 1300) + (strecha * 1300) + (podlaha * 1700) + cerpadlo + kotel + fotovoltaika;
+
+            // Zobrazení výsledku
+            document.getElementById("vysledek").textContent = `Celková výše podpory: ${podpora.toLocaleString()} Kč`;
+        });
+    </script>
+</body>
+</html>
